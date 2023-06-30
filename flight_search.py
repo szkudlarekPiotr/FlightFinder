@@ -6,20 +6,12 @@ from data_manager import DataManager
 
 class FlightSearch:
     def __init__(self):
-        self.sheet_data = DataManager().data
-        self.sheet = self.sheet_data["prices"]
+        self.sheet = DataManager().data
         self.api_key = os.environ["FLIGHT_API_KEY"]
-        self.cities = [item["city"] for item in self.sheet_data["prices"]]
-        self.iataCodes = [item["iataCode"] for item in self.sheet_data["prices"]]
-        self.prices = [item["lowestPrice"] for item in self.sheet_data["prices"]]
         self.today_unformated = date.today()
-        self.next_week_unformated = self.today_unformated + timedelta(days=7)
-        self.two_weeks_unformated = self.today_unformated + timedelta(days=14)
-        self.three_weeks_unformated = self.today_unformated + timedelta(days=21)
+        self.twty_weeks = self.today_unformated + timedelta(weeks=20)
         self.today = self.today_unformated.strftime("%d/%m/%Y")
-        self.next_week = self.next_week_unformated.strftime("%d/%m/%Y")
-        self.two_weeks = self.two_weeks_unformated.strftime("%d/%m/%Y")
-        self.three_weeks = self.three_weeks_unformated.strftime("%d/%m/%Y")
+        self.six_months = self.twty_weeks.strftime("%d/%m/%Y")
 
     def get_response(self):
         self.endpoint = "https://api.tequila.kiwi.com/v2/search?"
@@ -29,11 +21,11 @@ class FlightSearch:
             self.parameters = {
                 "fly_from": "WAW",
                 "fly_to": item["iataCode"],
-                "price_to": int(item["lowestPrice"]),
+                "price_to": item["lowestPrice"],
                 "date_from": self.today,
-                "date_to": self.next_week,
-                "return_from": self.two_weeks,
-                "return_to": self.three_weeks,
+                "date_to": self.six_months,
+                "nights_in_dst_from": 4,
+                "nights_in_dst_to": 9,
                 "sort": "price",
                 "limit": 1,
                 "curr": "GBP",
@@ -46,6 +38,6 @@ class FlightSearch:
             self.response.raise_for_status()
             data = self.response.json()
 
-            self.possible_outputs.append(data)
+            self.possible_outputs.append(data["data"])
 
         return self.possible_outputs
