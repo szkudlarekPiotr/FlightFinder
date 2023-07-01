@@ -1,0 +1,10 @@
+# ENV files 
+*.env
+
+# Virtual env
+
+/venv/
+
+# pycache
+
+/__pycache__
