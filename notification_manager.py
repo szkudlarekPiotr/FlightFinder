@@ -8,7 +8,10 @@ MY_NUMBER = os.environ["MY_PHONE_NUMBER"]
 
 
 class Notification:
-    def __init__(self, flight_info):
+    def __init__(self):
+        self.client = Client(TWILIO_ACC_SID, TWILIO_AUTH)
+
+    def send_sms(self, flight_info):
         (
             self.city_to,
             self.price,
@@ -16,9 +19,6 @@ class Notification:
             self.return_date,
             self.link,
         ) = flight_info
-        self.client = Client(TWILIO_ACC_SID, TWILIO_AUTH)
-
-    def send_sms(self):
         self.msg_body = (
             f"New cheap flight found! From Warsaw to {self.city_to},"
             f"for only {self.price} £! Departure date: {self.dep_date}\n"

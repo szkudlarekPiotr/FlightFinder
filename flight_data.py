@@ -4,11 +4,10 @@ from data_manager import DataManager
 
 class FlightData:
     def __init__(self):
-        self.search = FlightSearch()
-        self.sheet_data = DataManager()
-        self.flight_data = self.search.get_response()
+        pass
 
-    def manage_data(self):
+    def manage_data(self, flight_data):
+        self.flight_data = flight_data
         self.flight_data_formated = []
         for flight in self.flight_data:
             if flight:
@@ -39,4 +38,4 @@ class FlightData:
                     ]
                 )
 
-        self.sheet_data.update_price(self.flight_data_formated)
+        return self.flight_data_formated
