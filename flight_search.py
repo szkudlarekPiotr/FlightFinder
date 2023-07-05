@@ -1,7 +1,6 @@
 import requests
 import os
 from datetime import date, timedelta
-from data_manager import DataManager
 
 TEQUILLA_API_KEY = os.environ["FLIGHT_API_KEY"]
 TEQUILLA_ENDPOINT = "https://api.tequila.kiwi.com/v2/search?"

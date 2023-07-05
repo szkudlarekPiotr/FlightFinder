@@ -1,6 +1,6 @@
 from flight_data import FlightData
 from flight_search import FlightSearch
-from flight_data import DataManager
+from data_manager import DataManager
 from notification_manager import Notification
 
 flight_data_manager = FlightData()

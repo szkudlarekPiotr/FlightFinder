@@ -1,7 +1,3 @@
-from flight_search import FlightSearch
-from data_manager import DataManager
-
-
 class FlightData:
     def __init__(self):
         pass

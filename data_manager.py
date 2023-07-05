@@ -1,8 +1,6 @@
 import requests
 import os
 
-# from notification_manager import Notification
-
 SHEETDB_AUTH = os.environ["SHEETDB_HEADER"]
 SHEETDB_ENDPOINT = "https://sheetdb.io/api/v1/0e322pvdjssna"
 
