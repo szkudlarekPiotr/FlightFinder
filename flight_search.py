@@ -1,5 +1,7 @@
 import requests
+from requests.exceptions import HTTPError, InvalidSchema, ConnectionError
 import os
+import sys
 from datetime import date, timedelta
 
 TEQUILLA_API_KEY = os.environ["FLIGHT_API_KEY"]
@@ -31,14 +33,18 @@ class FlightSearch:
                 "limit": 1,
                 "curr": "GBP",
             }
-            self.response = requests.get(
-                url=TEQUILLA_ENDPOINT,
-                headers=self.auth_header,
-                params=self.parameters,
-            )
-            self.response.raise_for_status()
-            f_data = self.response.json()
-
-            self.possible_outputs.append(f_data["data"])
+            try:
+                self.response = requests.get(
+                    url=TEQUILLA_ENDPOINT,
+                    headers=self.auth_header,
+                    params=self.parameters,
+                )
+                self.response.raise_for_status()
+                f_data = self.response.json()
+                if f_data["data"]:
+                    self.possible_outputs.append(f_data["data"])
+            except (HTTPError, InvalidSchema, ConnectionError) as e:
+                print(f"Invalid request: {e.args}")
+                sys.exit(1)
 
         return self.possible_outputs
